@@ -16,7 +16,7 @@ export class Random implements INodeType {
 		description: 'Gera um número aleatório verdadeiro',
 		defaults: {
 			name: 'Random',
-			color: '#ecececff',
+
 		},
 		inputs: ['main'],
 		outputs: ['main'],
@@ -31,6 +31,7 @@ export class Random implements INodeType {
 						name: 'True Random Number Generator',
 						value: 'generate',
 						description: 'Gera um número verdadeiramente aleatório usando Random.org',
+						action: 'Gera um numero verdadeiramente aleatorio usando random.org',
 					},
 				],
 				default: 'generate',
