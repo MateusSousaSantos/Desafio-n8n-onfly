@@ -24,7 +24,7 @@ Um nó personalizado para n8n que gera números verdadeiramente aleatórios usan
 
 ```powershell
 # Clone o repositório
-git clone <repository-url>
+git clone https://github.com/MateusSousaSantos/Desafio-n8n-onfly-random
 cd Desafio-n8n-onfly-random
 
 # Instale as dependências
