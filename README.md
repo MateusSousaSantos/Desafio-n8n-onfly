@@ -206,6 +206,24 @@ O nó utiliza o endpoint oficial do Random.org:
   - `format=plain`: Formato texto simples
   - `rnd=new`: Novo seed aleatório
 
+
+## 📸 Screenshots
+
+### Workflow de Exemplo
+![Random Node Workflow](docs/images/ExampleNodeWorkFlow.png)
+
+### Interface do Node
+![Random Node Interface](docs/images/NodeInterface.png)
+
+### Output do Node
+![Random Node Output](docs/images/OutputNode.png)
+
+## 📝 Changelog
+### v0.1.0
+- ✅ Implementação inicial do node Random
+- ✅ Integração com Random.org API
+- ✅ Validações de parâmetros
+
 ---
 
 **Desenvolvido com ❤️ para a comunidade n8n**

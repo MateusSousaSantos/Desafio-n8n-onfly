@@ -57,8 +57,8 @@ export class Random implements INodeType {
 				displayName: 'Max',
 				name: 'max',
 				type: 'number',
-				description: 'Valor máximo (inclusivo)',
-				default: 60,
+				description: 'Valor máximo (inclusivo). Aceita valores de -1,000,000,000 a 1,000,000,000',
+				default: 100,
 				required: true,
 				displayOptions: {
 					show: {
@@ -148,6 +148,7 @@ export class Random implements INodeType {
 						min,
 						max,
 						source: 'random.org',
+                        timestamp: new Date().toISOString(),
 					},
 				});
 			} catch (error) {
