@@ -1,3 +1,4 @@
+![BannerN8N](https://user-images.githubusercontent.com/10284570/173569848-c624317f-42b1-45a6-ab09-f0ea3c247648.png)
 # 🎲 n8n Random Number Generator
 
 Um nó personalizado para n8n que gera números verdadeiramente aleatórios usando a API do **Random.org**. 
@@ -63,7 +64,7 @@ docker-compose ps
 
 - **URL**: http://localhost:5678
 - **Usuário**: admin
-- **Senha**: admin123_change_me
+- **Senha**: senha123
 
 ## 📖 Como Usar o Nó Random
 
@@ -151,7 +152,7 @@ O nó inclui validações robustas:
 - ✅ Tratamento de respostas inválidas da API
 - ✅ Modo "Continue on Fail" suportado
 
-## 🧪 Testando o Nó
+## 🧪 Testando o Node
 
 ### 1. Teste Básico
 
@@ -204,26 +205,6 @@ O nó utiliza o endpoint oficial do Random.org:
   - `base=10`: Base decimal
   - `format=plain`: Formato texto simples
   - `rnd=new`: Novo seed aleatório
-
-## 🤝 Contribuição
-
-1. Faça um Fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
-
-## 📄 Licença
-
-Este projeto está licenciado sob a licença MIT - veja o arquivo [LICENSE.md](LICENSE.md) para detalhes.
-
-## 📞 Suporte
-
-Se você encontrar algum problema ou tiver dúvidas:
-
-1. Verifique os logs: `docker-compose logs n8n`
-2. Consulte a documentação do n8n: https://docs.n8n.io/
-3. Abra uma issue no repositório
 
 ---
 
