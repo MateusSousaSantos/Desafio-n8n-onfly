@@ -20,16 +20,6 @@ tests/
 npm test
 ```
 
-### Testes com coverage
-```bash
-npm run test:coverage
-```
-
-### Testes em modo watch (durante desenvolvimento)
-```bash
-npm run test:watch
-```
-
 ### Testes específicos
 ```bash
 # Apenas testes unitários do node

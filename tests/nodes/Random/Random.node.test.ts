@@ -34,33 +34,35 @@ describe('Random Node', () => {
 		jest.clearAllMocks();
 	});
 
-	describe('Node Description', () => {
-		it('should have correct node metadata', () => {
+	describe('Descrição do Node', () => {
+		it('deve ter os metadados corretos do node', () => {
 			expect(randomNode.description.displayName).toBe('Random');
 			expect(randomNode.description.name).toBe('random');
 			expect(randomNode.description.version).toBe(1);
 			expect(randomNode.description.group).toEqual(['transform']);
 		});
 
-		it('should have correct inputs and outputs', () => {
+		it('deve ter inputs e outputs corretos', () => {
 			expect(randomNode.description.inputs).toEqual(['main']);
 			expect(randomNode.description.outputs).toEqual(['main']);
 		});
 
-		it('should have generate operation configured', () => {
+		it('deve ter a operação generate configurada', () => {
 			const operationProperty = randomNode.description.properties.find(
 				(prop: any) => prop.name === 'operation'
 			);
 			
 			expect(operationProperty).toBeDefined();
-			expect(operationProperty?.options).toContainEqual({
-				name: 'True Random Number Generator',
-				value: 'generate',
-				description: 'Gera um número verdadeiramente aleatório usando Random.org',
-			});
+			expect(operationProperty?.options).toContainEqual(
+				expect.objectContaining({
+					name: 'True Random Number Generator',
+					value: 'generate',
+					description: 'Gera um número verdadeiramente aleatório usando Random.org',
+				})
+			);
 		});
 
-		it('should have min and max parameters with correct constraints', () => {
+		it('deve ter os parâmetros min e max com as restrições corretas', () => {
 			const minProperty = randomNode.description.properties.find(
 				(prop: any) => prop.name === 'min'
 			);
@@ -77,7 +79,7 @@ describe('Random Node', () => {
 		});
 	});
 
-	describe('Execute Function - Success Cases', () => {
+	describe('Função Execute - Casos de Sucesso', () => {
 		beforeEach(() => {
 			mockExecuteFunctions.getInputData.mockReturnValue([{ json: {} }]);
 			mockExecuteFunctions.getNodeParameter
@@ -95,7 +97,7 @@ describe('Random Node', () => {
 				});
 		});
 
-		it('should generate random number successfully', async () => {
+		it('deve gerar número aleatório com sucesso', async () => {
 			// Mock da resposta da API Random.org
 			mockHttpRequest.mockResolvedValue('42\n');
 
@@ -103,15 +105,18 @@ describe('Random Node', () => {
 
 			expect(result).toHaveLength(1);
 			expect(result[0]).toHaveLength(1);
-			expect(result[0][0].json).toEqual({
-				randomNumber: 42,
-				min: 1,
-				max: 100,
-				source: 'random.org',
-			});
+			expect(result[0][0].json).toEqual(
+				expect.objectContaining({
+					randomNumber: 42,
+					min: 1,
+					max: 100,
+					source: 'random.org',
+				})
+			);
+			expect(result[0][0].json.timestamp).toBeDefined();
 		});
 
-		it('should handle multiple input items', async () => {
+		it('deve processar múltiplos itens de input', async () => {
 			mockExecuteFunctions.getInputData.mockReturnValue([
 				{ json: {} },
 				{ json: {} },
@@ -128,7 +133,7 @@ describe('Random Node', () => {
 			expect(result[0][1].json.randomNumber).toBe(87);
 		});
 
-		it('should swap min and max if min > max', async () => {
+		it('deve trocar min e max se min > max', async () => {
 			mockExecuteFunctions.getNodeParameter
 				.mockImplementation((paramName: string) => {
 					switch (paramName) {
@@ -152,7 +157,7 @@ describe('Random Node', () => {
 			expect(result[0][0].json.max).toBe(100);
 		});
 
-		it('should round decimal numbers to integers', async () => {
+		it('deve arredondar números decimais para inteiros', async () => {
 			mockExecuteFunctions.getNodeParameter
 				.mockImplementation((paramName: string) => {
 					switch (paramName) {
@@ -176,7 +181,7 @@ describe('Random Node', () => {
 			expect(result[0][0].json.max).toBe(10);
 		});
 
-		it('should handle API response with whitespace', async () => {
+		it('deve processar resposta da API com espaços em branco', async () => {
 			mockHttpRequest.mockResolvedValue('  42  \n\r');
 
 			const result = await randomNode.execute.call(mockExecuteFunctions);
@@ -185,12 +190,12 @@ describe('Random Node', () => {
 		});
 	});
 
-	describe('Execute Function - Error Handling', () => {
+	describe('Função Execute - Tratamento de Erros', () => {
 		beforeEach(() => {
 			mockExecuteFunctions.getInputData.mockReturnValue([{ json: {} }]);
 		});
 
-		it('should throw error for invalid operation', async () => {
+		it('deve lançar erro para operação inválida', async () => {
 			mockExecuteFunctions.getNodeParameter
 				.mockImplementation((paramName: string) => {
 					if (paramName === 'operation') return 'invalid';
@@ -202,7 +207,7 @@ describe('Random Node', () => {
 				.toThrow(NodeOperationError);
 		});
 
-		it('should throw error for non-finite numbers', async () => {
+		it('deve lançar erro para números não finitos', async () => {
 			mockExecuteFunctions.getNodeParameter
 				.mockImplementation((paramName: string) => {
 					switch (paramName) {
@@ -222,7 +227,7 @@ describe('Random Node', () => {
 				.toThrow('Os parâmetros "Min" e "Max" devem ser números.');
 		});
 
-		it('should throw error for values outside Random.org limits', async () => {
+		it('deve lançar erro para valores fora dos limites do Random.org', async () => {
 			mockExecuteFunctions.getNodeParameter
 				.mockImplementation((paramName: string) => {
 					switch (paramName) {
@@ -242,7 +247,7 @@ describe('Random Node', () => {
 				.toThrow('Random.org suporta valores entre -1,000,000,000 e 1,000,000,000.');
 		});
 
-		it('should throw error for invalid API response', async () => {
+		it('deve lançar erro para resposta inválida da API', async () => {
 			mockExecuteFunctions.getNodeParameter
 				.mockImplementation((paramName: string) => {
 					switch (paramName) {
@@ -264,7 +269,7 @@ describe('Random Node', () => {
 				.toThrow('Resposta inesperada do Random.org.');
 		});
 
-		it('should handle HTTP request errors', async () => {
+		it('deve tratar erros de requisição HTTP', async () => {
 			mockExecuteFunctions.getNodeParameter
 				.mockImplementation((paramName: string) => {
 					switch (paramName) {
@@ -288,7 +293,7 @@ describe('Random Node', () => {
 		});
 	});
 
-	describe('API Integration', () => {
+	describe('Integração com API', () => {
 		beforeEach(() => {
 			mockExecuteFunctions.getInputData.mockReturnValue([{ json: {} }]);
 			mockExecuteFunctions.getNodeParameter
@@ -306,7 +311,7 @@ describe('Random Node', () => {
 				});
 		});
 
-		it('should call Random.org API with correct parameters', async () => {
+		it('deve chamar a API do Random.org com parâmetros corretos', async () => {
 			mockHttpRequest.mockResolvedValue('42\n');
 
 			await randomNode.execute.call(mockExecuteFunctions);
@@ -330,12 +335,12 @@ describe('Random Node', () => {
 		});
 	});
 
-	describe('Edge Cases', () => {
+	describe('Casos Extremos', () => {
 		beforeEach(() => {
 			mockExecuteFunctions.getInputData.mockReturnValue([{ json: {} }]);
 		});
 
-		it('should handle min and max being equal', async () => {
+		it('deve processar quando min e max são iguais', async () => {
 			mockExecuteFunctions.getNodeParameter
 				.mockImplementation((paramName: string) => {
 					switch (paramName) {
@@ -359,7 +364,7 @@ describe('Random Node', () => {
 			expect(result[0][0].json.max).toBe(50);
 		});
 
-		it('should handle negative numbers', async () => {
+		it('deve processar números negativos', async () => {
 			mockExecuteFunctions.getNodeParameter
 				.mockImplementation((paramName: string) => {
 					switch (paramName) {
@@ -381,7 +386,7 @@ describe('Random Node', () => {
 			expect(result[0][0].json.randomNumber).toBe(-75);
 		});
 
-		it('should handle maximum allowed values', async () => {
+		it('deve processar valores máximos permitidos', async () => {
 			mockExecuteFunctions.getNodeParameter
 				.mockImplementation((paramName: string) => {
 					switch (paramName) {

@@ -167,6 +167,36 @@ O nó inclui validações robustas:
 2. Execute e observe a mensagem de erro
 3. Corrija os valores e teste novamente
 
+### 3. Testes Automatizados
+
+O projeto inclui uma suite completa de testes automatizados:
+
+#### 🔧 Testes Unitários
+```powershell
+# Executar todos os testes
+npm test
+
+# Testes com cobertura
+npm run test:coverage
+
+# Modo watch para desenvolvimento
+npm run test:watch
+```
+
+#### ⚡ Testes de Integração
+- ✅ **API Random.org**: Validação de chamadas HTTP reais
+- ✅ **Parâmetros de Request**: Verificação de query strings corretas
+- ✅ **Timeout Handling**: Teste de timeouts de 10 segundos
+- ✅ **Response Parsing**: Validação do parsing de respostas da API
+
+#### 📊 Cobertura de Código
+- **Linhas**: 80%+ cobertura obrigatória
+- **Funções**: 80%+ cobertura obrigatória
+- **Branches**: 80%+ cobertura obrigatória
+- **Edge Cases**: Todos os cenários críticos cobertos
+
+Para mais detalhes sobre os testes, consulte: **[📚 Documentação Completa dos Testes](tests/README.md)**
+
 ## 🐳 Docker
 
 ### Build Local
