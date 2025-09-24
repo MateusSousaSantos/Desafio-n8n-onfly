@@ -6,3 +6,12 @@ dist
 npm-debug.log*
 yarn.lock
 .vscode/launch.json
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Docker volumes
+postgres_data/
+n8n_data/

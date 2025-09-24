@@ -1,48 +1,230 @@
-![Banner image](https://user-images.githubusercontent.com/10284570/173569848-c624317f-42b1-45a6-ab09-f0ea3c247648.png)
+# 🎲 n8n Random Number Generator
 
-# n8n-nodes-starter
+Um nó personalizado para n8n que gera números verdadeiramente aleatórios usando a API do **Random.org**. 
 
-This repo contains example nodes to help you get started building your own custom integrations for [n8n](https://n8n.io). It includes the node linter and other dependencies.
+## 🚀 Características
 
-To make your custom node available to the community, you must create it as an npm package, and [submit it to the npm registry](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry).
+- ✅ Números **verdadeiramente aleatórios** (não pseudo-aleatórios)
+- 🌐 Powered by **Random.org API**
+- 🎯 Interface amigável com validação de parâmetros
+- 📊 Dados de saída enriquecidos com metadados
+- 🔧 Tratamento robusto de erros
+- 🐳 Pronto para Docker
 
-If you would like your node to be available on n8n cloud you can also [submit your node for verification](https://docs.n8n.io/integrations/creating-nodes/deploy/submit-community-nodes/).
+## 📋 Pré-requisitos
 
-## Prerequisites
+- **Node.js v22+** (LTS)
+- **Docker** e **Docker Compose**
+- **npm** ou **yarn**
 
-You need the following installed on your development machine:
+## 🛠️ Instalação e Configuração
 
-* [git](https://git-scm.com/downloads)
-* Node.js and npm. Minimum version Node 20. You can find instructions on how to install both using nvm (Node Version Manager) for Linux, Mac, and WSL [here](https://github.com/nvm-sh/nvm). For Windows users, refer to Microsoft's guide to [Install NodeJS on Windows](https://docs.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-windows).
-* Install n8n with:
-  ```
-  npm install n8n -g
-  ```
-* Recommended: follow n8n's guide to [set up your development environment](https://docs.n8n.io/integrations/creating-nodes/build/node-development-environment/).
+### 1. Preparação do Projeto
 
-## Using this starter
+```powershell
+# Clone o repositório
+git clone <repository-url>
+cd Desafio-n8n-onfly-random
 
-These are the basic steps for working with the starter. For detailed guidance on creating and publishing nodes, refer to the [documentation](https://docs.n8n.io/integrations/creating-nodes/).
+# Instale as dependências
+npm install
 
-1. [Generate a new repository](https://github.com/n8n-io/n8n-nodes-starter/generate) from this template repository.
-2. Clone your new repo:
-   ```
-   git clone https://github.com/<your organization>/<your-repo-name>.git
-   ```
-3. Run `npm i` to install dependencies.
-4. Open the project in your editor.
-5. Browse the examples in `/nodes` and `/credentials`. Modify the examples, or replace them with your own nodes.
-6. Update the `package.json` to match your details.
-7. Run `npm run lint` to check for errors or `npm run lintfix` to automatically fix errors when possible.
-8. Test your node locally. Refer to [Run your node locally](https://docs.n8n.io/integrations/creating-nodes/test/run-node-locally/) for guidance.
-9. Replace this README with documentation for your node. Use the [README_TEMPLATE](README_TEMPLATE.md) to get started.
-10. Update the LICENSE file to use your details.
-11. [Publish](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry) your package to npm.
+# Construa o projeto
+npm run build
+```
 
-## More information
+### 2. Configuração do Ambiente
 
-Refer to our [documentation on creating nodes](https://docs.n8n.io/integrations/creating-nodes/) for detailed information on building your own nodes.
+O arquivo `.env` já está configurado com valores padrão seguros:
 
-## License
+```env
+# Database
+POSTGRES_USER=n8n
+POSTGRES_PASSWORD=n8n_secure_password
+POSTGRES_DB=n8n
 
-[MIT](https://github.com/n8n-io/n8n-nodes-starter/blob/master/LICENSE.md)
+# n8n Settings
+N8N_BASIC_AUTH_USER=admin
+N8N_BASIC_AUTH_PASSWORD=admin123_change_me
+TIMEZONE=America/Sao_Paulo
+```
+
+### 3. Inicialização do Ambiente
+
+```powershell
+# Construir e executar os containers
+docker-compose up -d --build
+
+# Verificar se os serviços estão rodando
+docker-compose ps
+```
+
+### 4. Acesso ao n8n
+
+- **URL**: http://localhost:5678
+- **Usuário**: admin
+- **Senha**: admin123_change_me
+
+## 📖 Como Usar o Nó Random
+
+### 1. No Editor n8n
+
+1. Acesse o n8n em http://localhost:5678
+2. Crie um novo workflow
+3. Procure por "Random" na barra lateral de nós
+4. Arraste o nó para o canvas
+5. Configure os parâmetros:
+   - **Min**: Valor mínimo (ex: 1)
+   - **Max**: Valor máximo (ex: 100)
+
+### 2. Configurações Disponíveis
+
+| Parâmetro | Tipo | Descrição | Padrão |
+|-----------|------|-----------|---------|
+| **Operação** | Seleção | True Random Number Generator | `generate` |
+| **Min** | Número | Valor mínimo (incluído no intervalo) | `1` |
+| **Max** | Número | Valor máximo (incluído no intervalo) | `100` |
+
+### 3. Dados de Saída
+
+O nó retorna um objeto JSON enriquecido:
+
+```json
+{
+  "randomNumber": 42,
+  "min": 1,
+  "max": 100,
+  "source": "Random.org",
+  "timestamp": "2025-09-24T18:13:45.123Z",
+  "requestUrl": "https://www.random.org/integers/?num=1&min=1&max=100&col=1&base=10&format=plain&rnd=new"
+}
+```
+
+### 4. Exemplo de Uso
+
+```javascript
+// Exemplo de workflow simples
+// Input: { min: 1, max: 10 }
+// Output: { randomNumber: 7, min: 1, max: 10, ... }
+```
+
+## 🔧 Desenvolvimento
+
+### Scripts Disponíveis
+
+```powershell
+# Desenvolvimento com watch mode
+npm run dev
+
+# Build completo
+npm run build
+
+# Formatação de código
+npm run format
+
+# Linting
+npm run lint
+npm run lintfix
+```
+
+### Estrutura do Projeto
+
+```
+├── nodes/
+│   └── Random/
+│       ├── Random.node.ts      # Implementação principal
+│       ├── Random.node.json    # Configuração do nó
+│       └── random.svg          # Ícone personalizado
+├── dist/                       # Arquivos compilados
+├── docker-compose.yml          # Configuração Docker
+├── Dockerfile                  # Build multi-stage
+├── package.json               # Dependências e scripts
+└── tsconfig.json              # Configuração TypeScript
+```
+
+## 🛡️ Tratamento de Erros
+
+O nó inclui validações robustas:
+
+- ✅ Validação de parâmetros (min < max)
+- ✅ Timeout de 10 segundos para requests
+- ✅ Tratamento de respostas inválidas da API
+- ✅ Modo "Continue on Fail" suportado
+
+## 🧪 Testando o Nó
+
+### 1. Teste Básico
+
+1. Crie um workflow simples
+2. Adicione o nó Random
+3. Configure Min=1, Max=10
+4. Execute e verifique o resultado
+
+### 2. Teste de Validação
+
+1. Configure Min=10, Max=5 (inválido)
+2. Execute e observe a mensagem de erro
+3. Corrija os valores e teste novamente
+
+## 🐳 Docker
+
+### Build Local
+
+```powershell
+# Build apenas da imagem
+docker build -t n8n-random .
+
+# Build com compose
+docker-compose build
+```
+
+### Logs e Debug
+
+```powershell
+# Logs do n8n
+docker-compose logs n8n
+
+# Logs do banco
+docker-compose logs postgres
+
+# Logs em tempo real
+docker-compose logs -f
+```
+
+## 📊 API do Random.org
+
+O nó utiliza o endpoint oficial do Random.org:
+
+- **URL**: `https://www.random.org/integers/`
+- **Parâmetros**:
+  - `num=1`: Quantidade de números
+  - `min={min}`: Valor mínimo
+  - `max={max}`: Valor máximo
+  - `col=1`: Uma coluna
+  - `base=10`: Base decimal
+  - `format=plain`: Formato texto simples
+  - `rnd=new`: Novo seed aleatório
+
+## 🤝 Contribuição
+
+1. Faça um Fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📄 Licença
+
+Este projeto está licenciado sob a licença MIT - veja o arquivo [LICENSE.md](LICENSE.md) para detalhes.
+
+## 📞 Suporte
+
+Se você encontrar algum problema ou tiver dúvidas:
+
+1. Verifique os logs: `docker-compose logs n8n`
+2. Consulte a documentação do n8n: https://docs.n8n.io/
+3. Abra uma issue no repositório
+
+---
+
+**Desenvolvido com ❤️ para a comunidade n8n**
